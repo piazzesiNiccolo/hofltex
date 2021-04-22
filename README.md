@@ -1,2 +1,2 @@
-# HOFLOG
-an HOFL interpreter 
+# Hofltex
+Hofl to TeX  interpreter 
