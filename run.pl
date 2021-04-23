@@ -7,9 +7,12 @@
 main(Argv) :-
     opt_spec(Spec),
     opt_parse(Spec, Argv, Opts, _),
+    append(_, [Last], Argv),
     (
         member(help(true), Opts) -> show_help
-        ; maplist(format('~w~n'), Opts)
+        ; interpret([Last])
+        
+        
         
         
     ).

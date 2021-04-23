@@ -1,5 +1,8 @@
-:- module(interpret, [interpret/0]).
+:- module(interpret, [interpret/1]).
 
-interpret :- 
-  true.
-    
+interpret(T) :- 
+  phrase(as, T).
+  
+
+as --> [].
+as --> [a],as.
