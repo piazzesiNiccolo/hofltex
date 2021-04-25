@@ -40,12 +40,12 @@ test(parse_snd) :-
     T = snd(tuple(variable(x),variable(y))).
 
 test(parse_lambda) :-
-    Term = ["fun","x",".","y"],
+    Term = ["\\","x",".","y"],
     parse(Term,T),
     T = lambda(variable(x),variable(y)).
 
 test(parse_apply) :-
-    Term = ["(","fun","x",".","x", "1",")"],
+    Term = ["(","\\","x",".","x", "1",")"],
     parse(Term,T),
     T = apply(lambda(variable(x),variable(x)),int(1)).
 test(parse_rec) :-
@@ -54,7 +54,7 @@ test(parse_rec) :-
     T = rec(variable(x),variable(x)).
 
 test(parse_lambda_fail_if_parameter_is_not_a_variable,fail) :-
-    Term = ["fun","(","x",",","y",")",".","x"],
+    Term = ["\\","(","x",",","y",")",".","x"],
     parse(Term,_).
 
 test(parse_rec_fail_if_parameter_is_not_a_variable,fail) :-
