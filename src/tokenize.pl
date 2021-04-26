@@ -13,7 +13,7 @@ tokens([]) --> [].
 ws -->[W],{char_type(W, space)},ws.
 ws --> [].
 
-token(P) --> [C], { char_type(C, punct), string_chars(P, [C]) }.
+token(P) --> [C], { member(C,['\\','.',',','+','-','*','(',')']), string_chars(P, [C]) }. 
 token(W) --> word(Cs), { string_chars(W, Cs) }.
 
 

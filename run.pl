@@ -1,5 +1,5 @@
 :-use_module(library(main)).
-:-use_module(src/interpret).
+:-use_module(src/hofl).
 
 
 :- initialization(main,main).
@@ -10,7 +10,7 @@ main(Argv) :-
     append(_, [Last], Argv),
     (
         member(help(true), Opts) -> show_help
-        ; interpret([Last])
+        ; parse(Last,_)
         
         
         

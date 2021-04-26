@@ -14,13 +14,19 @@ test(tokenize_strings_with_whitespace):-
     S = "x + y",
     string_tokens(S,C),
     C=["x","+","y"].
-test(tokenize_punctuation):-
-    S = "+-*\\,",
+
+test(tokenize_allowed_punctuation):-
+    S = "+-*\\,.()",
     string_tokens(S,C),
-    C = ["+","-","*","\\",","].
+    C = ["+","-","*","\\",",",".","(",")"].
+
+test(tokenize_disallowed_punctuation,fail):-
+    S="!£$%&;:\"/=?^><_[]{}@#",
+    string_tokens(S,_).
 
 test(tokenize_string_with_punctuation):-
-    S = "+ \" string-",
+    S = "\\x.x+y",
     string_tokens(S,C),
-    C = ["+","\"","string","-"].
+    C = ["\\","x",".","x","+","y"].
+
 :-end_tests(tokenize).

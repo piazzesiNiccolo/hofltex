@@ -1,12 +1,13 @@
 :- module(hofl,[parse/2]).
 
+:- use_module(tokenize).
 :- table pre_term//1. 
 /**
 The binary expressions t0 [+,-,*] t1 and function application (t0 t1) rules are left recursive. Using table allows memoization
 of previous results, making the parse predicate terminate as expected (packrat pars)
 */
 
-parse(P,T) :- phrase(pre_term(T), P).
+parse(String,Term) :- string_tokens(String,Tokens),phrase(pre_term(Term), Tokens),!.
 
 
 pre_term(X) --> ["("],pre_term(X),[")"].
