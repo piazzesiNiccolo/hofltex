@@ -7,7 +7,7 @@ The binary expressions t0 [+,-,*] t1 and function application (t0 t1) rules are 
 of previous results, making the parse predicate terminate as expected (packrat pars)
 */
 
-parse(String,Term) :- string_tokens(String,Tokens),phrase(pre_term(Term), Tokens),!.
+parse(String,Term) :- string_tokens(String,Tokens),phrase(pre_term(Term), Tokens).
 
 
 pre_term(X) --> ["("],pre_term(X),[")"].
@@ -16,7 +16,7 @@ pre_term(rec(variable(X),Y)) -->["rec"], pre_term(variable(X)),["."],pre_term(Y)
 
 pre_term(apply(X,Y)) --> ["("], pre_term(X), pre_term(Y),[")"].
 
-pre_term(lambda(variable(X),Y)) --> ["\\"] , pre_term(variable(X)),["."],pre_term(Y).
+pre_term(lambda(variable(X),Y)) --> ["\\"] , pre_term(variable(X)),["."],pre_term(Y),!.
 
 pre_term(cond(X,Y,Z)) --> ["if"],pre_term(X),["then"],pre_term(Y),["else"],pre_term(Z).
 

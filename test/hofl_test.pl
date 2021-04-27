@@ -62,8 +62,8 @@ test(parse_rec_fail_if_parameter_is_not_a_variable,fail) :-
     parse(Term,_).
 
 test(parse_term_in_parentheses_should_have_higher_precedence) :-
-    Term = "x + ( y + z )",
+    Term = "x * ( y + z )",
     parse(Term,T),
-    T = add(variable(x),add(variable(y),variable(z))).
+    T = mul(variable(x),add(variable(y),variable(z))).
 :-end_tests(hofl).
 

@@ -9,6 +9,7 @@ swipl=$(which swipl 2> /dev/null) ||{
 test_files=(
  test/hofl_test.pl
  test/tokenize_test.pl
+ test/type_test.pl
 )
 
 
