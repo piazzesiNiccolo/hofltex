@@ -37,7 +37,7 @@ test(parse_lambda,[true(T == lambda(x,variable(y)))]) :-
     parse(Term,T).
 
 test(parse_apply,[true(T == apply(lambda(x,variable(x)),int(1)))]) :-
-    Term = "(\\x.x) (1)",
+    Term = "(\\x.x)@1",
     parse(Term,T).
 test(parse_rec,[true(T == rec(x,variable(x)))]) :-
     Term = "rec x.x",
