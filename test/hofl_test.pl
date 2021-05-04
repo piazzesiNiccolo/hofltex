@@ -32,14 +32,14 @@ test(parse_snd,[true(T == snd(tuple(variable(x),variable(y))))]) :-
     Term = "snd(x,y)",
     parse(Term,T).
 
-test(parse_lambda,[true(T == lambda(x,variable(y)))]) :-
+test(parse_lambda,[true(T == lambda(variable(x),variable(y)))]) :-
     Term = "\\x.y",
     parse(Term,T).
 
-test(parse_apply,[true(T == apply(lambda(x,variable(x)),int(1)))]) :-
+test(parse_apply,[true(T == apply(lambda(variable(x),variable(x)),int(1)))]) :-
     Term = "(\\x.x)@1",
     parse(Term,T).
-test(parse_rec,[true(T == rec(x,variable(x)))]) :-
+test(parse_rec,[true(T == rec(variable(x),variable(x)))]) :-
     Term = "rec x.x",
     parse(Term,T).
 
@@ -55,12 +55,12 @@ test(parse_term_in_parentheses_should_have_higher_precedence,[true(T == mul(vari
     Term = "x * ( y + z )",
     parse(Term,T).
 
-test(lambda_precedence,[true(T==lambda(x,add(variable(x),int(2))))]) :-
+test(lambda_precedence,[true(T==lambda(variable(x),add(variable(x),int(2))))]) :-
     Term = "\\x.x+2",
     parse(Term,T).
 
 
-test(rec_precedence,[true(T==rec(x,add(variable(x),int(2))))]) :-
+test(rec_precedence,[true(T==rec(variable(x),add(variable(x),int(2))))]) :-
     Term = "rec x.x+2",
     parse(Term,T).
 
