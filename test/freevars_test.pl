@@ -36,3 +36,5 @@ test(freevars_rec,[true(FV==[z])]) :-
 test(freevars_apply,[true(FV==[y])]) :-
     F = lambda(variable(x),cond(variable(x),int(1),int(2))),
     freevars(apply(F,variable(y)),FV).
+
+:- end_tests(freevars).

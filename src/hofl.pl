@@ -17,7 +17,7 @@ pre_term(rec(variable(X),Y)) -->["rec"], pre_term(variable(X)),!,["."],pre_term(
 pre_term(lambda(variable(X),Y)) --> ["\\"] , pre_term(variable(X)),!,["."],pre_term(Y).
 
 
-pre_term(cond(X,Y,Z)) --> ["if"],pre_term(X),["then"],pre_term(Y),["else"],pre_term(Z),!.
+pre_term(cond(X,Y,Z)) --> ["if"],pre_term(X),!,["then"],pre_term(Y),["else"],pre_term(Z).
 
 pre_term(fst(X)) --> ["fst"], pre_term(X). 
 
