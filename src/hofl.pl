@@ -13,8 +13,8 @@ parse(String,Term) :- string_tokens(String,Tokens),phrase(pre_term(Term), Tokens
 pre_term(X) --> ["("],pre_term(X),[")"].
 
 
-pre_term(rec(variable(X),Y)) -->["rec"], pre_term(variable(X)),!,["."],pre_term(Y). 
-pre_term(lambda(variable(X),Y)) --> ["\\"] , pre_term(variable(X)),!,["."],pre_term(Y).
+pre_term(rec(var(X),Y)) -->["rec"], pre_term(var(X)),!,["."],pre_term(Y). 
+pre_term(lambda(var(X),Y)) --> ["\\"] , pre_term(var(X)),!,["."],pre_term(Y).
 
 
 pre_term(cond(X,Y,Z)) --> ["if"],pre_term(X),!,["then"],pre_term(Y),["else"],pre_term(Z).
@@ -35,4 +35,4 @@ pre_term(apply(X,Y)) -->  pre_term(X),["@"], pre_term(Y).
 
 pre_term(int(X)) --> [Y],{number_string(X, Y)},!.
 
-pre_term(variable(X)) --> [Y],{\+number_string(X,Y),atom_string(X, Y),\+member(Y,["\\",".",",","+","-","*","(",")","@"])}.
+pre_term(var(X)) --> [Y],{\+number_string(X,Y),atom_string(X, Y),\+member(Y,["\\",".",",","+","-","*","(",")","@"])}.

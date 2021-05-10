@@ -2,42 +2,67 @@
 
 :- use_module(freevars).
 
+
 subst(int(N),_,_,int(N)).
 
-subst(variable(A),X,Y,variable(Y)):-
+subst(var(A),var(X),Y,Y):-
     A = X,!.
 
-subst(variable(A),X,_,variable(A)):-
+subst(var(A),var(X),_,var(A)):-
     A \= X.
 
-subst(add(A,B),X,Y,add(C,D)):-
-    subst(A,X,Y,C),
-    subst(B,X,Y,D).
+subst(add(A,B),var(X),Y,add(C,D)):-
+    subst(A,var(X),Y,C),
+    subst(B,var(X),Y,D).
 
-subst(mul(A,B),X,Y,mul(C,D)):-
-    subst(A,X,Y,C),
-    subst(B,X,Y,D).
+subst(mul(A,B),var(X),Y,mul(C,D)):-
+    subst(A,var(X),Y,C),
+    subst(B,var(X),Y,D).
 
-subst(minus(A,B),X,Y,minus(C,D)):-
-    subst(A,X,Y,C),
-    subst(B,X,Y,D).
+subst(minus(A,B),var(X),Y,minus(C,D)):-
+    subst(A,var(X),Y,C),
+    subst(B,var(X),Y,D).
 
-subst(cond(A,B,C),X,Y,cond(D,E,F)):-
-    subst(A,X,Y,D),
-    subst(B,X,Y,E),
-    subst(C,X,Y,F).
+subst(cond(A,B,C),var(X),Y,cond(D,E,F)):-
+    subst(A,var(X),Y,D),
+    subst(B,var(X),Y,E),
+    subst(C,var(X),Y,F).
 
-subst(tuple(A,B),X,Y,tuple(C,D)):-
-    subst(A,X,Y,C),
-    subst(B,X,Y,D).
+subst(tuple(A,B),var(X),Y,tuple(C,D)):-
+    subst(A,var(X),Y,C),
+    subst(B,var(X),Y,D).
 
-subst(fst(A),X,Y,fst(B)):-
-    subst(A,X,Y,B).
+subst(fst(A),var(X),Y,fst(B)):-
+    subst(A,var(X),Y,B).
 
-subst(snd(A),X,Y,fst(B)):-
-    subst(A,X,Y,B).
+subst(snd(A),var(X),Y,fst(B)):-
+    subst(A,var(X),Y,B).
 
-subst(apply(A,B),X,Y,apply(C,D)):-
-    subst(A,X,Y,C),
-    subst(B,X,Y,D).
+subst(apply(A,B),var(X),Y,apply(C,D)):-
+    subst(A,var(X),Y,C),
+    subst(B,var(X),Y,D).
+
+subst(lambda(var(A),B),var(X),Y,F):-
+  /**  freevars(lambda(var(A),B),T1),
+    freevars(Y,T2),
+    union(T1,T2,T3),
+    union(T3,[X],T),
+    (
+    char_type(Z,alpha),\+member(Z,T),!
+    ),
+    subst(B,var(A),var(Z),F),*/
+    subst(B,var(X),Y,F).
+        
+    
+
+subst(rec(var(A),B),var(X),Y,rec(var(Z),F)):-
+  /**  freevars(rec(var(A),B),L),
+    freevars(Y,L1),
+    union(L,L1,L2),
+    union(L2,[X],C),
+    (
+        
+        char_type(Z,alpha),\+member(Z,C),!
+    ),**/
+    subst(B,var(X),Y,F).
 

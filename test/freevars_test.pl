@@ -7,34 +7,34 @@ test(freevars_int,[true(FV==[])]):-
     freevars(int(1),FV).
 
 test(freevars_var,[true(FV==[x])]) :-
-    freevars(variable(x),FV).
+    freevars(var(x),FV).
 
 test(freevars_add,[true(FV==[x,y])]) :-
-    freevars(add(variable(x),variable(y)),FV).
+    freevars(add(var(x),var(y)),FV).
 
 test(freevars_minus,[true(FV==[x])]) :-
-    freevars(minus(variable(x),int(1)),FV).
+    freevars(minus(var(x),int(1)),FV).
 
 test(freevars_mul,[true(FV==[x,y,z])]) :-
-    freevars(mul(variable(x),add(variable(y),variable(z))),FV).
+    freevars(mul(var(x),add(var(y),var(z))),FV).
 
 test(freevars_tuple,[true(FV==[])]) :-
     freevars(tuple(int(_),int(_)),FV).
 
 test(freevars_lambda,[true(FV==[])]) :-
-    T = lambda(variable(x),
-            lambda(variable(y),
-                add(variable(x),variable(y)))),
+    T = lambda(var(x),
+            lambda(var(y),
+                add(var(x),var(y)))),
     freevars(T,FV).
 
 test(freevars_rec,[true(FV==[z])]) :-
-    T = rec(variable(x),
-            lambda(variable(y),
-                add(variable(x),add(variable(y),variable(z))))),
+    T = rec(var(x),
+            lambda(var(y),
+                add(var(x),add(var(y),var(z))))),
     freevars(T,FV).
     
 test(freevars_apply,[true(FV==[y])]) :-
-    F = lambda(variable(x),cond(variable(x),int(1),int(2))),
-    freevars(apply(F,variable(y)),FV).
+    F = lambda(var(x),cond(var(x),int(1),int(2))),
+    freevars(apply(F,var(y)),FV).
 
 :- end_tests(freevars).
