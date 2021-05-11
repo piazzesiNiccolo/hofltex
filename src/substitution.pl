@@ -42,27 +42,29 @@ subst(apply(A,B),var(X),Y,apply(C,D)):-
     subst(A,var(X),Y,C),
     subst(B,var(X),Y,D).
 
-subst(lambda(var(A),B),var(X),Y,F):-
-  /**  freevars(lambda(var(A),B),T1),
+subst(lambda(var(A),B),var(X),Y,lambda(var(Z),F)):-
+    freevars(lambda(var(A),B),T1),
     freevars(Y,T2),
     union(T1,T2,T3),
     union(T3,[X],T),
     (
     char_type(Z,alpha),\+member(Z,T),!
     ),
-    subst(B,var(A),var(Z),F),*/
-    subst(B,var(X),Y,F).
+    subst(B,var(A),var(Z),F1),
+    subst(F1,var(X),Y,F).
+    
         
     
 
 subst(rec(var(A),B),var(X),Y,rec(var(Z),F)):-
-  /**  freevars(rec(var(A),B),L),
+    freevars(rec(var(A),B),L),
     freevars(Y,L1),
     union(L,L1,L2),
     union(L2,[X],C),
     (
         
         char_type(Z,alpha),\+member(Z,C),!
-    ),**/
-    subst(B,var(X),Y,F).
+    ),
+    subst(B,var(A),var(Z),F1),
+    subst(F1,var(X),Y,F).
 

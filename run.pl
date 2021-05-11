@@ -1,6 +1,6 @@
 :-use_module(library(main)).
 :-use_module(src/hofl).
-:-use_module(src/canonical).
+:-use_module(src/infer).
 
 
 
@@ -12,7 +12,7 @@ main(Argv) :-
     append(_, [Last], Argv),
     (
         member(help(true), Opts) -> show_help
-        ; parse(Last,A),red(A,T), writeln(T)
+        ; parse(Last,A),derive(D,red(A,T)), writeln(D),writeln(T)
         
         
         
