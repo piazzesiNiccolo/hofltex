@@ -43,4 +43,6 @@ test(subst_lambda,[true(T=lambda(var('A'), lambda(var('B'), add(var('A'), add(va
 test(subst_rec,[true(T=rec(var('A'),var('A')))]):-
     subst(rec(var(x),var(x)),var(x),var(y),T).
 
+test(subst_apply,[true(T=apply(lambda(var('A'), var('A')), int(2)))]):-
+    subst(apply(lambda(var(x),var(x)),int(2)),var(x),int(2),T).
 :- end_tests(subst).
