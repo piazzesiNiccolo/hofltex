@@ -35,7 +35,7 @@ subst(tuple(A,B),var(X),Y,tuple(C,D)):-
 subst(fst(A),var(X),Y,fst(B)):-
     subst(A,var(X),Y,B).
 
-subst(snd(A),var(X),Y,fst(B)):-
+subst(snd(A),var(X),Y,snd(B)):-
     subst(A,var(X),Y,B).
 
 subst(apply(A,B),var(X),Y,apply(C,D)):-

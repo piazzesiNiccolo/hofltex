@@ -55,7 +55,12 @@ derive(D,red(snd(tuple(T1,T2)),C1)):-
     D = infer(snd,red(snd(tuple(T1,T2)),C1),[D1]).
 
 derive(D,red(apply(A,B),C0)):-
-    derive(D1,red(A,lambda(C,B1))),
-    subst(B1,C,B,T),
+    derive(D1,red(A,lambda(var(C),B1))),
+    subst(B1,var(C),B,T),
     derive(D2,red(T,C0)),
     D = infer(apply,red(apply(A,B),C0),[D1,D2]).
+
+derive(D,red(rec(A,B),C)):-
+    subst(B,A,rec(A,B),B1),
+    derive(D1,red(B1,C)),
+    D = infer(rec,red(rec(A,B),C),[D1]).

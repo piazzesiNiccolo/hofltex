@@ -27,11 +27,11 @@ test(subst_cond,[true(T=cond(var(b),int(1),int(2)))]):-
 test(subst_tuple,[true(T=tuple(var(z),tuple(var(z),var(y))))]):-
     subst(tuple(var(x),tuple(var(x),var(y))),var(x),var(z),T).
 
-test(subst_fst,[true(T=tuple(var(x),var(z)))]):-
-    subst(tuple(var(x),var(y)),var(y),var(z),T).
+test(subst_fst,[true(T=fst(tuple(var(x),var(z))))]):-
+    subst(fst(tuple(var(x),var(y))),var(y),var(z),T).
 
-test(subst_snd,[true(T=tuple(var(z),var(y)))]):-
-    subst(tuple(var(x),var(y)),var(x),var(z),T).
+test(subst_snd,[true(T=snd(tuple(var(z),var(y))))]):-
+    subst(snd(tuple(var(x),var(y))),var(x),var(z),T).
 
 test(subst_lambda,[true(T=lambda(var('A'), lambda(var('B'), add(var('A'), add(var('B'), int(2))))))]):-
     subst(lambda(var(x),lambda(var(y), add(var(x), add(var(y), int(2))))),
@@ -45,4 +45,5 @@ test(subst_rec,[true(T=rec(var('A'),var('A')))]):-
 
 test(subst_apply,[true(T=apply(lambda(var('A'), var('A')), int(2)))]):-
     subst(apply(lambda(var(x),var(x)),int(2)),var(x),int(2),T).
+
 :- end_tests(subst).

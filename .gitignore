@@ -1,1 +1,9 @@
 *.out
+*.tex
+*.gz
+*.pdf
+*.aux
+*_latexmk
+*.fls
+*.log
+

@@ -1,6 +1,7 @@
 :-use_module(library(main)).
 :-use_module(src/hofl).
 :-use_module(src/infer).
+:- use_module(src/latex).
 
 
 
@@ -12,7 +13,7 @@ main(Argv) :-
     append(_, [Last], Argv),
     (
         member(help(true), Opts) -> show_help
-        ; parse(Last,A),derive(D,red(A,T)), writeln(D),writeln(T)
+        ; parse(Last,T),derive(D,red(T,_)),member(output(A),Opts),write_to_file(D,A)
         
         
         
@@ -37,7 +38,13 @@ opt_spec([
         type(boolean),
         default(false),
         longflags([html]),
-        help('Convert the output to html')]
+        help('Convert the output to html')],
+    [opt(output),
+        type(atom),
+        default('der.tex'),
+        shortflags([o]),
+        longflags([file]),
+        help('Specify which file to save the output to')]
     ]).
     
     
