@@ -25,11 +25,11 @@ pre_term(tuple(X,Y)) --> ["("],pre_term(X),[","],pre_term(Y),[")"].
 
 
 pre_term(apply(X,Y)) -->  pre_term(X),["@"], pre_term(Y).
-pre_term(mul(X,Y)) --> pre_term(X), ["*"], pre_term(Y).
+pre_term(mul(X,Y)) --> pre_term(X), ["*"], pre_term(Y),!.
 
-pre_term(add(X,Y)) --> pre_term(X), ["+"], pre_term(Y).
+pre_term(add(X,Y)) --> pre_term(X), ["+"], pre_term(Y),!.
 
-pre_term(minus(X,Y)) --> pre_term(X), ["-"], pre_term(Y).
+pre_term(minus(X,Y)) --> pre_term(X), ["-"], pre_term(Y),!.
 
 
 

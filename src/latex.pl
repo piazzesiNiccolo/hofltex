@@ -29,8 +29,29 @@ write_tree(infer(R,red(A,B),[]),OS):- /** base cases: numbers, tuples, lambdas*/
     tab(OS,7),
     writeln(OS,"{}").
 
-write_tree(infer(add,red(A,B),[D1,D2]),OS):-
-    writeln(OS,"\\infer[add]"),
+write_tree(infer(R,red(A,B),[D1]),OS):-
+    swritef(St,"%w",[R]),
+    string_concat("\\infer[",St,St1),
+    string_concat(St1,"]",F),
+    writeln(OS,F),
+    tab(OS, 7),
+    write(OS, "{"),
+    repr(A,S),
+    write(OS,S),
+    write(OS,"\\to "),
+    repr(B,S1),
+    write(OS,S1),
+    writeln(OS,"}"),
+    tab(OS,7),
+    write(OS,"{"),
+    write_tree(D1,OS),
+    write(OS,"}").
+
+write_tree(infer(R,red(A,B),[D1,D2]),OS):-
+    swritef(St,"%w",[R]),
+    string_concat("\\infer[",St,St1),
+    string_concat(St1,"]",F),
+    writeln(OS,F),
     tab(OS, 7),
     write(OS, "{"),
     repr(A,S),
