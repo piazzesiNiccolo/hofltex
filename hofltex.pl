@@ -13,8 +13,16 @@ main(Argv) :-
     append(_, [Last], Argv),
     (
         member(help(true), Opts) -> show_help
-        ; parse(Last,T),derive(D,red(T,_)),member(output(A),Opts),write_to_file(D,A)
-        
+        ; 
+        (
+
+            parse(Last,T) -> ( 
+                derive(D,red(T,_)) ->
+                    (member(output(A),Opts),write_to_file(D,A)
+                    ;writeln("Could not write derivation to file "))
+                ;writeln("ERROR: no canonical form for given term"))
+            ; writeln("Could not parse given term")
+        )
         
         
         
@@ -24,7 +32,7 @@ main(Argv) :-
 show_help:-
     opt_spec(Spec),
     opt_help(Spec, HelpText),
-    write('usage: hoftex <options> f\n\n'),
+    write('usage: swipl hofltex.pl <options> f\n\n'),
     write(HelpText).
 
 opt_spec([
@@ -34,12 +42,6 @@ opt_spec([
         shortflags([h]),
         longflags([help]),
         help('Show help')],
-    
-    [opt(html),
-        type(boolean),
-        default(false),
-        longflags([html]),
-        help('Convert the output to html')],
     [opt(output),
         type(atom),
         default('der.tex'),
