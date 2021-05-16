@@ -65,7 +65,7 @@ test(rec_precedence,[true(T==rec(var(x),add(var(x),int(2))))]) :-
     parse(Term,T).
 
 test(cond_precedence,[true(T==cond(var(x),int(1),add(int(2),int(3))))]) :-
-    Term = "if x then 1 else 2+3",
+    Term = "if x then 1 else (2+3)",
     parse(Term,T).
 
 :-end_tests(hofl).

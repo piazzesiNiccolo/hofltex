@@ -4,6 +4,7 @@
 :- use_module(substitution).
 
 
+
 derive(D,red(int(N),int(N))):-
     D = infer(int,red(int(N),int(N)),[]).
 
@@ -55,10 +56,10 @@ derive(D,red(snd(tuple(T1,T2)),C1)):-
     D = infer(snd,red(snd(tuple(T1,T2)),C1),[D1]).
 
 derive(D,red(apply(A,B),C0)):-
-    derive(D1,red(A,lambda(var(C),B1))),
+    derive(_,red(A,lambda(var(C),B1))),
     subst(B1,var(C),B,T),
     derive(D2,red(T,C0)),
-    D = infer(apply,red(apply(A,B),C0),[D1,D2]).
+    D = infer(apply,red(apply(A,B),C0),[D2]).
 
 derive(D,red(rec(A,B),C)):-
     subst(B,A,rec(A,B),B1),

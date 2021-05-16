@@ -31,6 +31,36 @@ test(infer_minus,[true(T = int(0))]) :-
 test(infer_minus_fail_if_not_number,fail) :-
     derive(_,red(minus(int(2),var(x)),_)).
 
+test(tuple_with_closed_terms,[true(T = tuple(int(1),int(2)))]):-
+    derive(_,red(tuple(int(1),int(2)),T)).
+
+test(tuple_with_open_term,fail):-
+    derive(_,red(tuple(var(x),int(1)))).
+
+test(fst_with_tuple,[true(T=int(1))]):-
+    derive(_,red(fst(tuple(int(1),var(x))),T)).
+
+test(fst_without_tuple,fail):-
+    derive(_,red(fst(var(x)),_)).
+
+test(snd_with_tuple,[true(T=int(1))]):-
+    derive(_,red(snd(tuple(var(x),int(1))),T)).
+
+test(snd_without_tuple,fail):-
+    derive(_,red(snd(var(x)),_)).
+
+test(cond_true_term_with_canonical_form,[true(T = int(5))]):-
+    derive(_,red(cond(int(0),add(int(2),int(3)),var(x)),T)).
+
+test(cond_true_term_without_canonical_form,fail):-
+    derive(_,red(cond(int(0),var(x),_),_)).
+
+
+test(cond_false_term_with_canonical_form,[true(T = int(5))]):-
+    derive(_,red(cond(int(1),var(x),add(int(2),int(3))),T)).
+
+test(cond_false_term_without_canonical_form,fail):-
+    derive(_,red(cond(int(1),_,var(x)),_)).
 
 
 :-end_tests(infer).

@@ -8,54 +8,53 @@ repr(var(A),A).
 repr(add(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    string_concat(R1, "+", Rt),
-    string_concat(Rt, R2,R).
+    swritef(R,"%w + %w",[R1,R2]).
+
 
 repr(mul(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    string_concat(R1, "*", Rt),
-    string_concat(Rt, R2,R).
+    swritef(R,"(%w) * %w",[R1,R2]).
 
 repr(minus(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    string_concat(R1, "-", Rt),
-    string_concat(Rt, R2,R).
+    swritef(R,"%w - %w",[R1,R2]).
 
 repr(tuple(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    string_concat("(", R1 ,Rt),
-    string_concat(Rt, ", ",Rt2),
-    string_concat(Rt2, R2, Rt3),
-    string_concat(Rt3, ")", R).
+    swritef(R,"(%w , %w)",[R1,R2]).
 
-repr(lambda(var(A),B),R):-
-    string_concat("\\lambda ", A, St),
-    string_concat(St, ".", St1),
-    repr(B,Rb),
-    string_concat(St1, Rb, R).
+repr(lambda(A,B),R):-
+    repr(A,R1),
+    repr(B,R2),
+    swritef(Rt,"%w.%w",[R1,R2]),
+    string_concat("[\\lambda ", Rt, Rt2),
+    string_concat(Rt2,"]",R).
+    
 
 repr(fst(T),R):-
     repr(T,R1),
     string_concat("fst",R1,R).
 
     
-repr(fst(T),R):-
+repr(snd(T),R):-
     repr(T,R1),
-    string_concat("snd(",R1,R).   
+    string_concat("snd",R1,R).   
     
 repr(apply(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    string_concat("( ",R1,Rt1),
-    string_concat(Rt1,"( ",Rt2),
-    string_concat(Rt2,R2,Rt3),
-    string_concat(Rt3,"))",R).
+    swritef(R,"(%w)@(%w)",[R1,R2]).
 
-repr(rec(var(A),B),R):-
-    string_concat("\\mbox{rec } ", A, St),
-    string_concat(St, ".", St1),
-    repr(B,Rb),
-    string_concat(St1, Rb, R).
+repr(rec(A,B),R):-
+    repr(A,R1),
+    repr(B,R2),
+    swritef(R,"\\mbox{rec }%w.%w",[R1,R2]).
+
+repr(cond(A,B,C),R):-
+    repr(A,R1),
+    repr(B,R2),
+    repr(C,R3),
+    swritef(R,"\\mbox{if } %w \\mbox{ then } %w \\mbox{ else } %w",[R1,R2,R3]).
