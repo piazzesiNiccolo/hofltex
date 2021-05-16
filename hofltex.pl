@@ -32,7 +32,7 @@ main(Argv) :-
 show_help:-
     opt_spec(Spec),
     opt_help(Spec, HelpText),
-    write('usage: swipl hofltex.pl <options> f\n\n'),
+    write('usage: swipl hofltex.pl <options> "<hofl_term>"\n\n'),
     write(HelpText).
 
 opt_spec([
@@ -46,8 +46,8 @@ opt_spec([
         type(atom),
         default('der.tex'),
         shortflags([o]),
-        longflags([file]),
-        help('Specify which file to save the output to')]
+        longflags(['output-file']),
+        help('Specify which file to save the output to (default=der.tex)')]
     ]).
     
     
