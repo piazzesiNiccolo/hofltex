@@ -5,7 +5,7 @@
 
 write_to_file(Tree,File):-
     open(File, write, OS),
-    writeln(OS, "\\documentclass[50pt]{article}"),
+    writeln(OS, "\\documentclass[10pt]{article}"),
     writeln(OS,"\\usepackage{proof}"),
     writeln(OS,"\\begin{document}"),
     writeln(OS,"\\["),

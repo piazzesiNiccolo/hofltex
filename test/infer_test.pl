@@ -14,10 +14,10 @@ test(infer_lambda_with_free_variables,fail):-
     derive(_,red(lambda(var(x),var(y)),_)).
 
 test(infer_add,[true(T = int(5))]) :-
-    derive(_,red(add(int(2),int(3)),T)).
+    derive(_,red(bin_op("+",int(2),int(3)),T)).
 
 test(infer_add_fail_if_not_number,fail) :-
-    derive(_,red(add(int(2),var(x)),_)).
+    derive(_,red(bin_op("+",int(2),var(x)),_)).
 
 test(infer_mul,[true(T = int(-10))]) :-
     derive(_,red(mul(int(2),int(-5)),T)).
@@ -26,10 +26,10 @@ test(infer_mul_fail_if_not_number,fail) :-
     derive(_,red(mul(int(2),var(x)),_)).
 
 test(infer_minus,[true(T = int(0))]) :-
-    derive(_,red(minus(int(100),int(100)),T)).
+    derive(_,red(bin_op("-",int(100),int(100)),T)).
 
 test(infer_minus_fail_if_not_number,fail) :-
-    derive(_,red(minus(int(2),var(x)),_)).
+    derive(_,red(bin_op("-",int(2),var(x)),_)).
 
 test(tuple_with_closed_terms,[true(T = tuple(int(1),int(2)))]):-
     derive(_,red(tuple(int(1),int(2)),T)).
@@ -50,14 +50,14 @@ test(snd_without_tuple,fail):-
     derive(_,red(snd(var(x)),_)).
 
 test(cond_true_term_with_canonical_form,[true(T = int(5))]):-
-    derive(_,red(cond(int(0),add(int(2),int(3)),var(x)),T)).
+    derive(_,red(cond(int(0),bin_op("+",int(2),int(3)),var(x)),T)).
 
 test(cond_true_term_without_canonical_form,fail):-
     derive(_,red(cond(int(0),var(x),_),_)).
 
 
 test(cond_false_term_with_canonical_form,[true(T = int(5))]):-
-    derive(_,red(cond(int(1),var(x),add(int(2),int(3))),T)).
+    derive(_,red(cond(int(1),var(x),bin_op("+",int(2),int(3))),T)).
 
 test(cond_false_term_without_canonical_form,fail):-
     derive(_,red(cond(int(1),_,var(x)),_)).

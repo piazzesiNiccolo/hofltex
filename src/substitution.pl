@@ -11,7 +11,7 @@ subst(var(A),var(X),Y,Y):-
 subst(var(A),var(X),_,var(A)):-
     A \= X.
 
-subst(add(A,B),var(X),Y,add(C,D)):-
+subst(bin_op(Op,A,B),var(X),Y,bin_op(Op,C,D)):-
     subst(A,var(X),Y,C),
     subst(B,var(X),Y,D).
 
@@ -19,9 +19,6 @@ subst(mul(A,B),var(X),Y,mul(C,D)):-
     subst(A,var(X),Y,C),
     subst(B,var(X),Y,D).
 
-subst(minus(A,B),var(X),Y,minus(C,D)):-
-    subst(A,var(X),Y,C),
-    subst(B,var(X),Y,D).
 
 subst(cond(A,B,C),var(X),Y,cond(D,E,F)):-
     subst(A,var(X),Y,D),

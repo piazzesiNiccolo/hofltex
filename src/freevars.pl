@@ -8,15 +8,12 @@ freevars(mul(X,Y),FV) :-
     freevars(Y,F2),
     union(F1,F2,FV).
 
-freevars(add(X,Y),FV) :-
+freevars(bin_op(_,X,Y),FV) :-
     freevars(X,F1),
     freevars(Y,F2),
     union(F1,F2,FV).
     
-freevars(minus(X,Y),FV) :-
-    freevars(X,F1),
-    freevars(Y,F2),
-    union(F1,F2,FV).
+
 
 freevars(cond(X,Y,Z),FV) :-
     freevars(X,F1),

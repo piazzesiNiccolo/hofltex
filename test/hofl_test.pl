@@ -17,9 +17,10 @@ test(parse_cond,[true(T == cond(var(x),var(y),var(z)))]) :-
     Term = "if x then y else z",
     parse(Term,T).
 
-test(parse_add,[true(T == add(var(x),int(1)))]) :-
+test(parse_add,[true(T == bin_op("+",var(x),int(1)))]) :-
     Term = "x + 1",
     parse(Term,T).
+
 test(parse_tuple,[true(T == tuple(var(x),var(y)))]) :-
     Term = "(x,y)",
     parse(Term,T).
@@ -51,20 +52,20 @@ test(parse_rec_fail_if_parameter_is_not_a_var,fail) :-
     Term = "rec 2.x",
     parse(Term,_).
 
-test(parse_term_in_parentheses_should_have_higher_precedence,[true(T == mul(var(x),add(var(y),var(z))))]) :-
+test(parse_term_in_parentheses_should_have_higher_precedence,[true(T == mul(var(x),bin_op("+",var(y),var(z))))]) :-
     Term = "x * ( y + z )",
     parse(Term,T).
 
-test(lambda_precedence,[true(T==lambda(var(x),add(var(x),int(2))))]) :-
+test(lambda_precedence,[true(T==lambda(var(x),bin_op("+",var(x),int(2))))]) :-
     Term = "\\x.x+2",
     parse(Term,T).
 
 
-test(rec_precedence,[true(T==rec(var(x),add(var(x),int(2))))]) :-
+test(rec_precedence,[true(T==rec(var(x),bin_op("+",var(x),int(2))))]) :-
     Term = "rec x.x+2",
     parse(Term,T).
 
-test(cond_precedence,[true(T==cond(var(x),int(1),add(int(2),int(3))))]) :-
+test(cond_precedence,[true(T==cond(var(x),int(1),bin_op("+",int(2),int(3))))]) :-
     Term = "if x then 1 else (2+3)",
     parse(Term,T).
 

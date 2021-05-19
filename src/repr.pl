@@ -5,21 +5,16 @@
 repr(int(N),N).
 repr(var(A),A).
 
-repr(add(A,B),R):-
+repr(bin_op(Op,A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    swritef(R,"%w + %w",[R1,R2]).
+    swritef(R,"%w %w %w",[R1,Op,R2]).
 
 
 repr(mul(A,B),R):-
     repr(A,R1),
     repr(B,R2),
     swritef(R,"(%w) * %w",[R1,R2]).
-
-repr(minus(A,B),R):-
-    repr(A,R1),
-    repr(B,R2),
-    swritef(R,"%w - %w",[R1,R2]).
 
 repr(tuple(A,B),R):-
     repr(A,R1),
@@ -36,12 +31,12 @@ repr(lambda(A,B),R):-
 
 repr(fst(T),R):-
     repr(T,R1),
-    string_concat("fst",R1,R).
+    string_concat("\\mbox{fst }",R1,R).
 
     
 repr(snd(T),R):-
     repr(T,R1),
-    string_concat("snd",R1,R).   
+    string_concat("\\mbox{snd }",R1,R).   
     
 repr(apply(A,B),R):-
     repr(A,R1),
