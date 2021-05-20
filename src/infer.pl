@@ -4,7 +4,6 @@
 :- use_module(substitution).
 
 
-
 derive(D,red(int(N),int(N))):-
     D = infer(int,red(int(N),int(N)),[]).
 

@@ -14,7 +14,7 @@ test(infer_lambda_with_free_variables,fail):-
     derive(_,red(lambda(var(x),var(y)),_)).
 
 test(infer_add,[true(T = int(5))]) :-
-    derive(_,red(bin_op("+",int(2),int(3)),T)).
+    derive(_,red(bin_op("+",int(2),int(3)),T)),!.
 
 test(infer_add_fail_if_not_number,fail) :-
     derive(_,red(bin_op("+",int(2),var(x)),_)).

@@ -8,6 +8,8 @@ write_to_file(Tree,File):-
     writeln(OS, "\\documentclass[10pt]{article}"),
     writeln(OS,"\\usepackage{proof}"),
     writeln(OS,"\\begin{document}"),
+    writeln(OS,"\\pdfpageheight=11in"),
+    writeln(OS,"\\pdfpagewidth=15in"),
     writeln(OS,"\\["),
     write_tree(Tree,OS,0),
     writeln(OS,"\\]"),

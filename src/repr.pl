@@ -43,11 +43,8 @@ repr(apply(A,B),R):-
     repr(B,R2),
     swritef(R,"(%w)@(%w)",[R1,R2]).
 
-repr(rec(A,B),R):-
-    repr(A,R1),
-    repr(B,R2),
-    swritef(R,"\\mbox{rec }%w.%w",[R1,R2]).
-
+repr(rec(A,_),R):-
+    repr(A,R).
 repr(cond(A,B,C),R):-
     repr(A,R1),
     repr(B,R2),

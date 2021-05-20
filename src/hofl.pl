@@ -1,4 +1,4 @@
-:- module(hofl,[parse/2]).
+:- module(hofl,[parse/2,parse_from_file/2]).
 
 :- use_module(tokenize).
 :- table pre_term//1. 
@@ -8,6 +8,10 @@ of previous results, making the parse predicate terminate as expected (packrat p
 */
 
 parse(String,Term) :- string_tokens(String,Tokens),phrase(pre_term(Term), Tokens).
+
+parse_from_file(File,Term) :- 
+    read_file_to_string(File, String, []),
+    parse(String,Term).
 
 
 pre_term(X) --> ["("],pre_term(X),[")"].
@@ -27,11 +31,13 @@ pre_term(tuple(X,Y)) --> ["("],pre_term(X),[","],pre_term(Y),[")"].
 
 
 
+
 pre_term(apply(X,Y)) -->  pre_term(X),["@"], pre_term(Y).
 
 pre_term(mul(X,Y)) --> pre_term(X), ["*"], pre_term(Y).
 
-pre_term(bin_op(Op,X,Y)) --> pre_term(X),[Op],{ member(Op,["+","-"]),!}, pre_term(Y).
+
+pre_term(bin_op(Op,X,Y)) --> pre_term(X),[Op],{ member(Op,["+","-"])},!, pre_term(Y).
 
 
 pre_term(int(X)) --> [Y],{number_string(X, Y)}.
