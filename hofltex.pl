@@ -10,10 +10,10 @@
 main(Argv) :-
     opt_spec(Spec),
     opt_parse(Spec, Argv, Opts, _),
-    append(_, [Last], Argv),
-
     (
-        member(help(true), Opts) -> show_help
+        append(_, [Last], Argv),
+        (
+        (member(help(true), Opts); Opts = []) -> show_help
         
         ;member(file(true),Opts) -> 
             (parse_from_file(Last,T) -> ( 
@@ -31,18 +31,15 @@ main(Argv) :-
                     ;writeln("Could not write derivation to file "))
                 ;writeln("ERROR: no canonical form for given term"))
             ; writeln("Could not parse given term"))
-        
-        
-        
-        
-        
-    ).
+        )
+    )
+    ;show_help.
 
 
 show_help:-
     opt_spec(Spec),
     opt_help(Spec, HelpText),
-    write('usage: swipl hofltex.pl [-o( --output) | -f( --file )] "<hofl_term>" | file_name \n\n'),
+    write('usage: swipl hofltex.pl <options>  < hofl_term | file_name > \n\n'),
     write(HelpText).
 
 opt_spec([
