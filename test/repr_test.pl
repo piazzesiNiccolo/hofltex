@@ -10,10 +10,10 @@ test(repr_var,[true(T=x)]):-
 test(repr_int,[true(T=1)]):-
     repr(int(1),T).
 
-test(repr_add,[true(T="2 + 3")]):-
+test(repr_add,[true(T="(2) + 3")]):-
     repr(bin_op("+",int(2),int(3)),T).
 
-test(repr_minus,[true(T="2 - 3")]):-
+test(repr_minus,[true(T="(2) - 3")]):-
     repr(bin_op("-",int(2),int(3)),T).
 
 test(repr_mul,[true(T="(2) * 3")]):-
@@ -31,10 +31,10 @@ test(repr_fst,[true(T="\\mbox{fst }(1 , 2)")]):-
 test(repr_snd,[true(T="\\mbox{snd }(1 , 2)")]):-
     repr(snd(tuple(int(1),int(2))),T).
 
-test(repr_lambda,[true(T="[\\lambda x.x + 2]")]):-
+test(repr_lambda,[true(T="[\\lambda x.(x) + 2]")]):-
     repr(lambda(var(x),bin_op("+",var(x),int(2))),T).
 
-test(repr_apply,[true(T="([\\lambda x.x + 2])@(3)")]):-
+test(repr_apply,[true(T="([\\lambda x.(x) + 2])@(3)")]):-
     repr(apply(lambda(var(x),bin_op("+",var(x),int(2))),int(3)),T).
 
 test(repr_rec,[true(T="\\mbox{rec }f.[\\lambda x.\\mbox{if } x \\mbox{ then } 1 \\mbox{ else } (f)@(x - 1)]")]):-
