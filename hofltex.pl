@@ -16,25 +16,22 @@ main(Argv) :-
         (member(help(true), Opts); Opts = []) -> show_help
         
         ;member(file(true),Opts) -> 
-            (parse_from_file(Last,T) -> ( 
-                derive(D,red(T,_)) ->
-                    (member(output(A),Opts),write_to_file(D,A)
-                    ;writeln("Could not write derivation to file "))
-                ;writeln("ERROR: no canonical form for given term"))
-            ; (swritef(S,"could not parse term from file %w",[Last]),writeln(S)))
+            (parse_from_file(Last,T) -> (get_canonical_form(T,Opts))
+            ;(swritef(S,"could not parse term from file %w",[Last]),writeln(S)))
 
-        
         ;member(file(false),Opts) ->
-            (parse(Last,T) -> ( 
-                derive(D,red(T,_)) ->
-                    (member(output(A),Opts),write_to_file(D,A)
-                    ;writeln("Could not write derivation to file "))
-                ;writeln("ERROR: no canonical form for given term"))
+            (parse(Last,T) -> ( get_canonical_form(T,Opts))
             ; writeln("Could not parse given term"))
         )
     )
     ;show_help.
 
+get_canonical_form(Term,Opts) :-
+    derive(D,red(Term,_)) ->(
+        member(output(A),Opts),
+        write_to_file(D,A)
+        ;writeln("Could not write derivation to file "))
+    ;writeln("ERROR: no canonical form for given term").
 
 show_help:-
     opt_spec(Spec),
