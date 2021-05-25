@@ -45,8 +45,9 @@ subst(lambda(var(A),B),var(X),Y,lambda(var(Z),F)):-
     union(T1,T2,T3),
     union(T3,[X],T),
     (
-    char_type(Z,alpha),\+member(Z,T),!
+    char_type(Z,lower),\+member(Z,T),!
     ),
+    
     subst(B,var(A),var(Z),F1),
     subst(F1,var(X),Y,F).
     
@@ -60,7 +61,7 @@ subst(rec(var(A),B),var(X),Y,rec(var(Z),F)):-
     union(L2,[X],C),
     (
         
-        char_type(Z,alpha),\+member(Z,C),!
+        char_type(Z,lower),\+member(Z,C),!
     ),
     subst(B,var(A),var(Z),F1),
     subst(F1,var(X),Y,F).

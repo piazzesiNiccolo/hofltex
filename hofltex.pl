@@ -29,7 +29,8 @@ main(Argv) :-
 get_canonical_form(Term,Opts) :-
     derive(D,red(Term,_)) ->(
         member(output(A),Opts),
-        write_to_file(D,A)
+        member(short(S),Opts),
+        write_to_file(D,A,S)
         ;writeln("Could not write derivation to file "))
     ;writeln("ERROR: no canonical form for given term").
 
@@ -57,7 +58,13 @@ opt_spec([
         default(false),
         shortflags([f]),
         longflags(['file']),
-        help('Interpret last argument as  a file name')]
+        help('Interpret last argument as  a file name')],
+    [opt(short),
+        type(boolean),
+        default(false),
+        shortflags([s]),
+        longflags(['short']),
+        help('Write the canonical reduction of a term without the full derivation tree')]
 
     ]).
     

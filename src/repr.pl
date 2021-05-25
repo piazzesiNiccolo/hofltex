@@ -21,7 +21,7 @@ repr(tuple(A,B),R):-
     repr(B,R2),
     swritef(R,"(%w , %w)",[R1,R2]).
 
-repr(lambda(A,B),R):-
+repr(lambda(A,B),R ):-
     repr(A,R1),
     repr(B,R2),
     swritef(Rt,"%w.%w",[R1,R2]),
@@ -41,10 +41,13 @@ repr(snd(T),R):-
 repr(apply(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    swritef(R,"(%w)@(%w)",[R1,R2]).
+    swritef(R,"{%w}@(%w)",[R1,R2]).
 
-repr(rec(A,_),R):-
-    repr(A,R).
+repr(rec(A,B),R):-
+    repr(A,R1),
+    repr(B,R2),
+    swritef(R3,"%w.%w",[R1,R2]),
+    string_concat("\\mbox{rec }",R3,R).
 repr(cond(A,B,C),R):-
     repr(A,R1),
     repr(B,R2),

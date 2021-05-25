@@ -1,17 +1,23 @@
-:- module(latex,[write_to_file/2]).
+:- module(latex,[write_to_file/3]).
 
 :-use_module(repr).
 
 
-write_to_file(Tree,File):-
-    open(File, write, OS),
+write_to_file(infer(R,red(T,C),Tree),File,Short):-
+    (
+    Short -> D = infer(R,red(T,C),[]),N1 is 8
+    ;D = infer(R,red(T,C),Tree),tree_width(infer(R,red(T,C),Tree),N),
+    N1 is 8+N
+    ),
+     open(File, write, OS),
     writeln(OS, "\\documentclass[10pt]{article}"),
     writeln(OS,"\\usepackage{proof}"),
     writeln(OS,"\\begin{document}"),
+    swritef(S,"\\pdfpagewidth=%win",[N1]),
     writeln(OS,"\\pdfpageheight=11in"),
-    writeln(OS,"\\pdfpagewidth=15in"),
+    writeln(OS,S),
     writeln(OS,"\\["),
-    write_tree(Tree,OS,0),
+    write_tree(D,OS,0),
     writeln(OS,"\\]"),
     writeln(OS,"\\end{document}").    
     
@@ -23,8 +29,8 @@ write_tree(infer(R,red(A,B),[]),OS,Tab):- /** base cases: numbers, tuples, lambd
     repr(A,S),
     write(OS,S),
     write(OS,"\\to "),
-    repr(B,S),
-    write(OS,S),
+    repr(B,S1),
+    write(OS,S1),
     writeln(OS,"}"),
     tab(OS,Tab + 7),
     writeln(OS,"{}").
@@ -69,4 +75,10 @@ write_tree(infer(R,red(A,B),[D1,D2]),OS,Tab):-
 
 
     
-    
+    tree_width(infer(_,_,[]),0).
+    tree_width(infer(_,_,[D]),N):-
+        tree_width(D,N).
+    tree_width(infer(_,_,[D1,D2]),N):-
+        tree_width(D1,N1),
+        tree_width(D2,N2),
+        N is N1+N2+1.

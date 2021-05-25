@@ -46,14 +46,15 @@ derive(D, red(cond(A,B,C),C1)):-
     D = infer(if,red(cond(A,B,C),C1),[D1,D2]),!.
 
 derive(D,red(fst(T),C0)):-
-    derive(_,red(T,tuple(T1,T2))),
+    derive(_,red(T,tuple(T1,_))),
     derive(D1,red(T1,C0)),
-    D = infer(fst,red(fst(tuple(T1,T2)),C0),[D1]).
+    D = infer(fst,red(fst(T),C0),[D1]).
 
 
-derive(D,red(snd(tuple(T1,T2)),C1)):-
+derive(D,red(snd(T),C1)):-
+    derive(_,red(T,tuple(_,T2))),
     derive(D1,red(T2,C1)),
-    D = infer(snd,red(snd(tuple(T1,T2)),C1),[D1]).
+    D = infer(snd,red(snd(T),C1),[D1]).
 
 derive(D,red(apply(A,B),C0)):-
     derive(_,red(A,lambda(var(C),B1))),
