@@ -33,17 +33,17 @@ test(subst_fst,[true(T=fst(tuple(var(x),var(z))))]):-
 test(subst_snd,[true(T=snd(tuple(var(z),var(y))))]):-
     subst(snd(tuple(var(x),var(y))),var(x),var(z),T).
 
-test(subst_lambda,[true(T=lambda(var('A'), lambda(var('B'), bin_op("+",var('A'), bin_op("+",var('B'), int(2))))))]):-
+test(subst_lambda,[true(T=lambda(var(a), lambda(var(b), bin_op("+",var(a), bin_op("+",var(b), int(2))))))]):-
     subst(lambda(var(x),lambda(var(y), bin_op("+",var(x), bin_op("+",var(y), int(2))))),
             var(x),
             var(y),
             T).
 
 
-test(subst_rec,[true(T=rec(var('A'),var('A')))]):-
+test(subst_rec,[true(T=rec(var(a),var(a)))]):-
     subst(rec(var(x),var(x)),var(x),var(y),T).
 
-test(subst_apply,[true(T=apply(lambda(var('A'), var('A')), int(2)))]):-
+test(subst_apply,[true(T=apply(lambda(var(a), var(a)), int(2)))]):-
     subst(apply(lambda(var(x),var(x)),int(2)),var(x),int(2),T).
 
 :- end_tests(subst).

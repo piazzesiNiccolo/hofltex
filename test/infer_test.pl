@@ -38,13 +38,13 @@ test(tuple_with_open_term,fail):-
     derive(_,red(tuple(var(x),int(1)))).
 
 test(fst_with_tuple,[true(T=int(1))]):-
-    derive(_,red(fst(tuple(int(1),var(x))),T)).
+    derive(_,red(fst(tuple(int(1),lambda(var(x),var(x)))),T)).
 
 test(fst_without_tuple,fail):-
     derive(_,red(fst(var(x)),_)).
 
 test(snd_with_tuple,[true(T=int(1))]):-
-    derive(_,red(snd(tuple(var(x),int(1))),T)).
+    derive(_,red(snd(tuple(lambda(var(x),var(x)),int(1))),T)).
 
 test(snd_without_tuple,fail):-
     derive(_,red(snd(var(x)),_)).

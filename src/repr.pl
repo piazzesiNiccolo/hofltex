@@ -41,7 +41,7 @@ repr(snd(T),R):-
 repr(apply(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    swritef(R,"{%w}@(%w)",[R1,R2]).
+    swritef(R,"(%w)@(%w)",[R1,R2]).
 
 repr(rec(A,B),R):-
     repr(A,R1),
