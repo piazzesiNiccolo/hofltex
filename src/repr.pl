@@ -8,13 +8,13 @@ repr(var(A),A).
 repr(bin_op(Op,A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    swritef(R,"(%w) %w %w",[R1,Op,R2]).
+    swritef(R,"%w %w %w",[R1,Op,R2]).
 
 
 repr(mul(A,B),R):-
     repr(A,R1),
     repr(B,R2),
-    swritef(R,"(%w) * %w",[R1,R2]).
+    swritef(R,"%w * %w",[R1,R2]).
 
 repr(tuple(A,B),R):-
     repr(A,R1),

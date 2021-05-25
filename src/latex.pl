@@ -12,6 +12,7 @@ write_to_file(infer(R,red(T,C),Tree),File,Short):-
      open(File, write, OS),
     writeln(OS, "\\documentclass[10pt]{article}"),
     writeln(OS,"\\usepackage{proof}"),
+    writeln(OS,"\\usepackage{xcolor}"),
     writeln(OS,"\\begin{document}"),
     swritef(S,"\\pdfpagewidth=%win",[N1]),
     writeln(OS,"\\pdfpageheight=11in"),
@@ -48,7 +49,9 @@ write_tree(infer(R,red(A,B),[D1]),OS,Tab):-
     writeln(OS,"}"),
     tab(OS,Tab+7),
     write(OS,"{"),
+    write(OS,"\\color{orange}"),
     write_tree(D1,OS,Tab+7),
+
     tab(OS,Tab+7),
     writeln(OS,"}").
 
@@ -65,9 +68,11 @@ write_tree(infer(R,red(A,B),[D1,D2]),OS,Tab):-
     writeln(OS,"}"),
     tab(OS,Tab+7),
     write(OS,"{"),
+    write(OS,"\\color{red}"),
     write_tree(D1,OS,Tab+7),
     tab(OS,Tab+7),
     write(OS,"&"),
+    write(OS,"\\color{blue}"),
     write_tree(D2,OS,Tab+7),
     tab(OS,Tab+7),
     writeln(OS,"}").
