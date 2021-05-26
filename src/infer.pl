@@ -57,8 +57,8 @@ derive(D,red(snd(T),C1)):-
     D = infer(snd,red(snd(T),C1),[D1]).
 
 derive(D,red(apply(A,B),C0)):-
-    derive(_,red(A,lambda(var(C),B1))),
-    subst(B1,var(C),B,T),
+    derive(_,red(A,lambda(id(C),B1))),
+    subst(B1,id(C),B,T),
     derive(D1,red(T,C0)),
     D = infer(apply,red(apply(A,B),C0),[D1]).
 
