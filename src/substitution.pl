@@ -2,7 +2,9 @@
 
 :- use_module(freevars).
 
-
+/**
+ * definition of auxiliary predicates that handles capture avoiding substitution
+ * */
 subst(int(N),_,_,int(N)).
 
 subst(id(A),id(X),Y,Y):-
