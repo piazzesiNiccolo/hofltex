@@ -3,6 +3,14 @@
 :-use_module(repr).
 
 
+tree_width(infer(_,_,[]),0).
+tree_width(infer(_,_,[D]),N):-
+    tree_width(D,N).
+tree_width(infer(_,_,[D1,D2]),N):-
+    tree_width(D1,N1),
+    tree_width(D2,N2),
+    N is N1+N2+1.
+
 write_to_file(infer(R,red(T,C),Tree),File,Short):-
     (
     Short -> D = infer(R,red(T,C),[]),N1 is 8
@@ -79,11 +87,3 @@ write_tree(infer(R,red(A,B),[D1,D2]),OS,Tab):-
 
 
 
-    
-    tree_width(infer(_,_,[]),0).
-    tree_width(infer(_,_,[D]),N):-
-        tree_width(D,N).
-    tree_width(infer(_,_,[D1,D2]),N):-
-        tree_width(D1,N1),
-        tree_width(D2,N2),
-        N is N1+N2+1.
