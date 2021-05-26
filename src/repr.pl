@@ -3,7 +3,7 @@
 
 
 repr(int(N),N).
-repr(var(A),A).
+repr(id(A),A).
 
 repr(bin_op(Op,A,B),R):-
     repr(A,R1),

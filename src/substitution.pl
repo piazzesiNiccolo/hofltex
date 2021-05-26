@@ -5,42 +5,42 @@
 
 subst(int(N),_,_,int(N)).
 
-subst(var(A),var(X),Y,Y):-
+subst(id(A),id(X),Y,Y):-
     A = X,!.
 
-subst(var(A),var(X),_,var(A)):-
+subst(id(A),id(X),_,id(A)):-
     A \= X.
 
-subst(bin_op(Op,A,B),var(X),Y,bin_op(Op,C,D)):-
-    subst(A,var(X),Y,C),
-    subst(B,var(X),Y,D).
+subst(bin_op(Op,A,B),id(X),Y,bin_op(Op,C,D)):-
+    subst(A,id(X),Y,C),
+    subst(B,id(X),Y,D).
 
-subst(mul(A,B),var(X),Y,mul(C,D)):-
-    subst(A,var(X),Y,C),
-    subst(B,var(X),Y,D).
+subst(mul(A,B),id(X),Y,mul(C,D)):-
+    subst(A,id(X),Y,C),
+    subst(B,id(X),Y,D).
 
 
-subst(cond(A,B,C),var(X),Y,cond(D,E,F)):-
-    subst(A,var(X),Y,D),
-    subst(B,var(X),Y,E),
-    subst(C,var(X),Y,F).
+subst(cond(A,B,C),id(X),Y,cond(D,E,F)):-
+    subst(A,id(X),Y,D),
+    subst(B,id(X),Y,E),
+    subst(C,id(X),Y,F).
 
-subst(tuple(A,B),var(X),Y,tuple(C,D)):-
-    subst(A,var(X),Y,C),
-    subst(B,var(X),Y,D).
+subst(tuple(A,B),id(X),Y,tuple(C,D)):-
+    subst(A,id(X),Y,C),
+    subst(B,id(X),Y,D).
 
-subst(fst(A),var(X),Y,fst(B)):-
-    subst(A,var(X),Y,B).
+subst(fst(A),id(X),Y,fst(B)):-
+    subst(A,id(X),Y,B).
 
-subst(snd(A),var(X),Y,snd(B)):-
-    subst(A,var(X),Y,B).
+subst(snd(A),id(X),Y,snd(B)):-
+    subst(A,id(X),Y,B).
 
-subst(apply(A,B),var(X),Y,apply(C,D)):-
-    subst(A,var(X),Y,C),
-    subst(B,var(X),Y,D).
+subst(apply(A,B),id(X),Y,apply(C,D)):-
+    subst(A,id(X),Y,C),
+    subst(B,id(X),Y,D).
 
-subst(lambda(var(A),B),var(X),Y,lambda(var(Z),F)):-
-    freevars(lambda(var(A),B),T1),
+subst(lambda(id(A),B),id(X),Y,lambda(id(Z),F)):-
+    freevars(lambda(id(A),B),T1),
     freevars(Y,T2),
     union(T1,T2,T3),
     union(T3,[X],T),
@@ -48,14 +48,14 @@ subst(lambda(var(A),B),var(X),Y,lambda(var(Z),F)):-
     char_type(Z,lower),\+member(Z,T),!
     ),
     
-    subst(B,var(A),var(Z),F1),
-    subst(F1,var(X),Y,F).
+    subst(B,id(A),id(Z),F1),
+    subst(F1,id(X),Y,F).
     
         
     
 
-subst(rec(var(A),B),var(X),Y,rec(var(Z),F)):-
-    freevars(rec(var(A),B),L),
+subst(rec(id(A),B),id(X),Y,rec(id(Z),F)):-
+    freevars(rec(id(A),B),L),
     freevars(Y,L1),
     union(L,L1,L2),
     union(L2,[X],C),
@@ -63,6 +63,6 @@ subst(rec(var(A),B),var(X),Y,rec(var(Z),F)):-
         
         char_type(Z,lower),\+member(Z,C),!
     ),
-    subst(B,var(A),var(Z),F1),
-    subst(F1,var(X),Y,F).
+    subst(B,id(A),id(Z),F1),
+    subst(F1,id(X),Y,F).
 

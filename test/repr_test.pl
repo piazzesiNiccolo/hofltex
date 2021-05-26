@@ -5,7 +5,7 @@
 
 
 test(repr_var,[true(T=x)]):-
-    repr(var(x),T).
+    repr(id(x),T).
 
 test(repr_int,[true(T=1)]):-
     repr(int(1),T).
@@ -32,17 +32,17 @@ test(repr_snd,[true(T="\\mbox{snd }(1 , 2)")]):-
     repr(snd(tuple(int(1),int(2))),T).
 
 test(repr_lambda,[true(T="[\\lambda x.(x) + 2]")]):-
-    repr(lambda(var(x),bin_op("+",var(x),int(2))),T).
+    repr(lambda(id(x),bin_op("+",id(x),int(2))),T).
 
 test(repr_apply,[true(T="([\\lambda x.(x) + 2])@(3)")]):-
-    repr(apply(lambda(var(x),bin_op("+",var(x),int(2))),int(3)),T).
+    repr(apply(lambda(id(x),bin_op("+",id(x),int(2))),int(3)),T).
 
 test(repr_rec,[true(T="\\mbox{rec }f.[\\lambda x.\\mbox{if } x \\mbox{ then } 1 \\mbox{ else } (f)@((x) - 1)]")]):-
-    Term = rec(var(f)
-                ,lambda(var(x),
-                cond(var(x), 
+    Term = rec(id(f)
+                ,lambda(id(x),
+                cond(id(x), 
                     int(1), 
-                    apply(var(f),bin_op("-",var(x),int(1)))))),
+                    apply(id(f),bin_op("-",id(x),int(1)))))),
     repr(Term,T).
 
 :-end_tests(repr).
