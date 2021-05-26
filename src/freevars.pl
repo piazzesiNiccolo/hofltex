@@ -2,7 +2,7 @@
 
 
 freevars(int(_),[]).
-freevars(var(X),[X]).
+freevars(id(X),[X]).
 freevars(mul(X,Y),FV) :-
     freevars(X,F1),
     freevars(Y,F2),
@@ -38,11 +38,11 @@ freevars(fst(X),FV) :-
 freevars(snd(X),FV) :-
     freevars(X,FV).
 
-freevars(lambda(var(X),Y),FV) :-
+freevars(lambda(id(X),Y),FV) :-
     freevars(Y,F1),
     subtract(F1,[X],FV).
 
 
-freevars(rec(var(X),Y),FV) :-
+freevars(rec(id(X),Y),FV) :-
     freevars(Y,F1),
     subtract(F1,[X],FV).

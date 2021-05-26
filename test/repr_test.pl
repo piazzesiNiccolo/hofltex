@@ -5,7 +5,7 @@
 
 
 test(repr_var,[true(T=x)]):-
-    repr(var(x),T).
+    repr(id(x),T).
 
 test(repr_int,[true(T=1)]):-
     repr(int(1),T).
@@ -42,7 +42,7 @@ test(repr_rec,[true(T="\\mbox{rec }f.[\\lambda x.\\mbox{if } x \\mbox{ then } 1 
                 ,lambda(var(x),
                 cond(var(x), 
                     int(1), 
-                    apply(var(f),bin_op("-",var(x),int(1)))))),
+                    apply(id(f),bin_op("-",id(x),int(1)))))),
     repr(Term,T).
 
 :-end_tests(repr).
