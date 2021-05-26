@@ -1,7 +1,7 @@
 :- module(latex,[write_to_file/3]).
 
 :-use_module(repr).
-
+/*predicates used to write the output to the target file*/
 
 tree_width(infer(_,_,[]),0).
 tree_width(infer(_,_,[D]),N):-

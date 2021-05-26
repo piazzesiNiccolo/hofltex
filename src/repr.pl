@@ -1,6 +1,8 @@
 :- module(repr, [repr/2]).
 
-
+/*
+Helper predicates to write AST objects as latex code
+*/
 
 repr(int(N),N).
 repr(id(A),A).

@@ -7,6 +7,25 @@ The binary expressions t0 [+,-,*] t1 and function application (t0 t1) rules are 
 of previous results, making the parse predicate terminate as expected (packrat parsing)
 */
 
+/**
+ * Produces the ast for the term. Possible terms are:
+ * - lambda(A,B) -> lambda term, A is the bound variable, B the body
+ * - rec(A,B) -> same structure of lambda but for recursive terms
+ * - int(N) -> represent a number N
+ * - id(A) -> represent the variable A
+ * - bin_op("+"|"-",A,B) -> A +|- B
+ * - mul(A,B) A*B. It's a different term from plus/minus so that we can better enforce operator precedence
+ * - tuple(A,B)
+ * - fst(A)
+ * - snd(A)
+ * - cond(A,B,C)  -> if A then B else C
+ * - apply(A,B) ->   A@B  
+ * 
+ * The grammar has been modified to mantain the left associativity of binary operators. For simplicity
+ * i do not allow lambda  and recursive definition as expression. This allowed for better handling of parsing precedence
+ * without having any significant change on the semantics. 
+ *
+ * */
 parse(String,Term) :- string_tokens(String,Tokens),phrase(pre_term(Term), Tokens).
 
 parse_from_file(File,Term) :- 

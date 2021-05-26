@@ -1,5 +1,6 @@
 :- module(tokenize,[string_tokens/2]).
 
+/*transform the input term into tokens readable by the parser*/
 string_tokens(String, Tokens):-
     string_chars(String, Chars),
     phrase(tokens(Tokens), Chars).

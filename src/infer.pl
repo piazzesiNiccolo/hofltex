@@ -3,7 +3,7 @@
 :- use_module(freevars).
 :- use_module(substitution).
 
-
+/*definition of the predicates that creates the derivation tree*/
 derive(D,red(int(N),int(N))):-
     D = infer(int,red(int(N),int(N)),[]).
 

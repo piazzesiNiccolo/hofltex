@@ -1,6 +1,6 @@
 :- module(freevars, [freevars/2]).
 
-
+/* auxiliary predicates to compute the free variables set of a term*/
 freevars(int(_),[]).
 freevars(id(X),[X]).
 freevars(mul(X,Y),FV) :-
