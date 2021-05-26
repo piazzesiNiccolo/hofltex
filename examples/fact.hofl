@@ -1,0 +1,3 @@
+rec fact.
+\x.
+if x then 1 else x*fact@(x-1)

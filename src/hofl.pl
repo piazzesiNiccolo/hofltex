@@ -32,7 +32,7 @@ fact(cond(X,Y,Z)) --> ["if"],pre_term(X),["then"],pre_term(Y),["else"],pre_term(
 fact(tuple(X,Y)) --> ["("],pre_term(X),[","],pre_term(Y),[")"].
 fact(fst(X)) --> ["fst"], pre_term(X). 
 fact(snd(X)) --> ["snd"], pre_term(X).
-fact(apply(X,Y)),! -->  pre_term(X),["@"],!, pre_term(Y).
+fact(apply(X,Y)) -->  pre_term(X),["@"],!, pre_term(Y).
 
 fact(int(X)) --> [Y],{number_string(X, Y)}.
 fact(id(X)) --> [Y],{\+number_string(X,Y),atom_string(X, Y),\+member(Y,["\\",".",",","+","-","*","(",")","@"])}.

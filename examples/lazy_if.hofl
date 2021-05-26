@@ -1,0 +1,1 @@
+(\x.if x then (1,2) else rec x.x)@(0)
