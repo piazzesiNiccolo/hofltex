@@ -10,6 +10,7 @@ swipl=$(which swipl 2> /dev/null) ||{
 }
 
 for ex_file in $(find "$mydir/$ex_dir" -name "*.hofl"); do
-   echo -e "Running '$ex_file'\n" >&2
-   "$swipl" "$mydir/hofltex.pl" -o $(sed 's/hofl/tex/g' <(echo "$ex_file")) -f "$ex_file"
+   echo -e "Running '$ex_file'\n" >&2  
+   lat=$(sed 's/hofl/tex/g' <(echo "$ex_file"))
+   "$swipl" "$mydir/hofltex.pl" -o "$lat" -f "$ex_file"  
 done

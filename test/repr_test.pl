@@ -37,7 +37,7 @@ test(repr_lambda,[true(T="[\\lambda x.x + 2]")]):-
 test(repr_apply,[true(T="([\\lambda x.x + 2])@(3)")]):-
     repr(apply(lambda(id(x),bin_op("+",id(x),int(2))),int(3)),T).
 
-test(repr_rec,[true(T="\\mbox{rec }f.[\\lambda x.\\mbox{if } x \\mbox{ then } 1 \\mbox{ else } (f)@(x - 1)]")]):-
+test(repr_rec,[true(T="f_{rec}")]):-
     Term = rec(id(f)
                 ,lambda(id(x),
                 cond(id(x), 
