@@ -3,7 +3,12 @@
 :- use_module(freevars).
 :- use_module(substitution).
 
-/*definition of the predicates that creates the derivation tree*/
+/*definition of the predicates that creates the derivation tree. THe predicates defined closely follow the operational semantics
+with a few minor changes:
+- since we assume that terms are well typed, premises that enforce a typing for terms are ignored
+- in the function application (t t0) rule, the premise that enforces that t is a lambda term is checked, but it's not memorized
+in the final tree to save some space
+- the same reasoning is applied in the fst(t) and snd(t) rules, for the premies that checks if t is a tuple*/
 derive(D,red(int(N),int(N))):-
     D = infer(int,red(int(N),int(N)),[]).
 
@@ -57,7 +62,7 @@ derive(D,red(snd(T),C1)):-
     D = infer(snd,red(snd(T),C1),[D1]).
 
 derive(D,red(apply(A,B),C0)):-
-    derive(_,red(A,lambda(id(C),B1))),
+    derive(_,red(A,lambda(id(C),B1))), /* checks that the term applied is a function, and then ignores its tree*/
     subst(B1,id(C),B,T),
     derive(D1,red(T,C0)),
     D = infer(apply,red(apply(A,B),C0),[D1]).

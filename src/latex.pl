@@ -1,8 +1,13 @@
+/*predicates used to write the output to the target file
+. There is a different predicate for rules with a different number of premises. I prefer to use one rule for each case
+instead of recursively process the list to enforce a better indentation in the final code. This is done by using the
+Tab variable, which is equal for rules at the same height in the tree*/
 :- module(latex,[write_to_file/3]).
 
 :-use_module(repr).
-/*predicates used to write the output to the target file*/
 
+
+/* tree width is used to compute how much width is necessary to write the full tree in a pdf file*/
 tree_width(infer(_,_,[]),0).
 tree_width(infer(_,_,[D]),N):-
     tree_width(D,N).
@@ -13,11 +18,13 @@ tree_width(infer(_,_,[D1,D2]),N):-
 
 write_to_file(infer(R,red(T,C),Tree),File,Short):-
     (
+    /* If the -s option is set, ignore the derivation tree and set the page width to the default value */
     Short -> D = infer(R,red(T,C),[]),N1 is 8
     ;D = infer(R,red(T,C),Tree),tree_width(infer(R,red(T,C),Tree),N),
     N1 is 8+N
     ),
-     open(File, write, OS),
+    /* set up the tex file and then write the full tree recursively*/
+    open(File, write, OS),
     writeln(OS, "\\documentclass[10pt]{article}"),
     writeln(OS,"\\usepackage{proof}"),
     writeln(OS,"\\usepackage[dvipsnames]{xcolor}"),
@@ -45,6 +52,8 @@ write_tree(infer(R,red(A,B),[]),OS,Tab):- /** base cases: numbers, tuples, lambd
     writeln(OS,"{}").
 
 write_tree(infer(R,red(A,B),[D1]),OS,Tab):-
+    /* predicate used for rules with a single premise,
+    the premise is colored blue*/
     swritef(F,"\\infer[%w]",[R]),
     writeln(OS,F),
     tab(OS, Tab+7),
@@ -64,6 +73,7 @@ write_tree(infer(R,red(A,B),[D1]),OS,Tab):-
     writeln(OS,"}").
 
 write_tree(infer(R,red(A,B),[D1,D2]),OS,Tab):-
+    /* predicates with two premises, the left one is colored red and the right one is colored green instead*/
     swritef(F,"\\infer[%w]",[R]),
     writeln(OS,F),
     tab(OS, Tab+7),

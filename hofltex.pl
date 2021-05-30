@@ -24,6 +24,7 @@ main(Argv) :-
             ; writeln("Could not parse given term"))
         )
     )
+    /* if no argument is passed simply shows the help*/
     ;show_help.
 
 get_canonical_form(Term,Opts) :-
@@ -40,6 +41,7 @@ show_help:-
     write('usage: swipl hofltex.pl <options>  < hofl_term | file_name > \n\n'),
     write(HelpText).
 
+/*definition of the command line  options*/
 opt_spec([
     [opt(help),
         type(boolean),
@@ -64,7 +66,7 @@ opt_spec([
         default(false),
         shortflags([s]),
         longflags(['short']),
-        help('Write the canonical reduction of a term without the full derivation tree')]
+        help('Write the reduction to a canonical form of a term without the full derivation tree')]
 
     ]).
     

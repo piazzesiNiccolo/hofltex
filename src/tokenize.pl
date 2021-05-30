@@ -7,13 +7,14 @@ string_tokens(String, Tokens):-
 
     
     
-
+/* ignores whitespace*/
 tokens([T|Ts]) --> ws,token(T),ws,!,tokens(Ts).
 tokens([]) --> [].
 
 ws -->[W],{char_type(W, space)},ws.
 ws --> [].
 
+/* separate punctuation and alphanumeric strings*/
 token(P) --> [C], { member(C,['\\','.',',','+','-','*','(',')','@']), string_chars(P, [C]) }. 
 token(W) --> word(Cs), { string_chars(W, Cs) }.
 
