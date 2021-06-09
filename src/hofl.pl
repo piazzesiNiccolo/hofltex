@@ -22,7 +22,7 @@ of previous results, making the parse predicate terminate as expected (packrat p
  * - apply(A,B) ->   A@B  
  * 
  * The grammar has been modified to mantain the left associativity of binary operators. For simplicity
- * i do not allow lambda  and recursive definition as expression. This allowed for better handling of parsing precedence
+ * i only allow lambda  and recursive definition as expression if they are inside parentheses. This allowed for better handling of parsing precedence
  * without having any significant change on the semantics. 
  *
  * */
