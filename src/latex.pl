@@ -37,7 +37,7 @@ write_to_file(infer(R,red(T,C),Tree),File,Short):-
     writeln(OS,"\\]"),
     writeln(OS,"\\end{document}").    
     
-write_tree(infer(R,red(A,B),[]),OS,Tab):- /** base cases: numbers, tuples, lambdas*/
+write_tree(infer(R,red(A,B),[]),OS,Tab):- /** rules without premises*/
     swritef(F,"\\infer[%w]",[R]),
     writeln(OS,F),
     tab(OS, Tab + 7),

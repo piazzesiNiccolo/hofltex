@@ -4,67 +4,71 @@
 
 /**
  * definition of auxiliary predicates that handles capture avoiding substitution
+ * 
+ * 
+ * The predicate subst(A, B, C, D) applies the substitution [C/B] in term A, creating the new term D.
+ * For lambda abstractions and recursive definitions we first check that the names introduced are not free variables of the body.
  * */
-subst(int(N),_,_,int(N)).
+subst(int(Number),_,_,int(Number)).
 
-subst(id(A),id(X),Y,Y):-
-    A = X,!.
+subst(id(Name),id(OldName),Term,Term):-
+    Name = OldName,!.
 
-subst(id(A),id(X),_,id(A)):-
-    A \= X.
+subst(id(Name),id(OldName),_,id(Name)):-
+    Name \= OldName.
 
-subst(bin_op(Op,A,B),id(X),Y,bin_op(Op,C,D)):-
-    subst(A,id(X),Y,C),
-    subst(B,id(X),Y,D).
+subst(bin_op(Op,Term1,Term2),id(Name),Y,bin_op(Op,NewTerm1,NewTerm2)):-
+    subst(Term1,id(Name),Y,NewTerm1),
+    subst(Term2,id(Name),Y,NewTerm2).
 
-subst(mul(A,B),id(X),Y,mul(C,D)):-
-    subst(A,id(X),Y,C),
-    subst(B,id(X),Y,D).
+subst(mul(Term1,Term2),id(Name),Y,mul(NewTerm1,NewTerm2)):-
+    subst(Term1,id(Name),Y,NewTerm1),
+    subst(Term2,id(Name),Y,NewTerm2).
 
 
-subst(cond(A,B,C),id(X),Y,cond(D,E,F)):-
-    subst(A,id(X),Y,D),
-    subst(B,id(X),Y,E),
-    subst(C,id(X),Y,F).
+subst(cond(Check,TrueBranch,FalseBranch),id(Name),Y,cond(NewCheck,NewTrueBranch,NewFalseBranch)):-
+    subst(Check,id(Name),Y,NewCheck),
+    subst(TrueBranch,id(Name),Y,NewTrueBranch),
+    subst(FalseBranch,id(Name),Y,NewFalseBranch).
 
-subst(tuple(A,B),id(X),Y,tuple(C,D)):-
-    subst(A,id(X),Y,C),
-    subst(B,id(X),Y,D).
+subst(tuple(Term1,Term2),id(Name),Y,tuple(NewTerm1,NewTerm2)):-
+    subst(Term1,id(Name),Y,NewTerm1),
+    subst(Term2,id(Name),Y,NewTerm2).
 
-subst(fst(A),id(X),Y,fst(B)):-
-    subst(A,id(X),Y,B).
+subst(fst(Tuple),id(Name),Y,fst(NewTuple)):-
+    subst(Tuple,id(Name),Y,NewTuple).
 
-subst(snd(A),id(X),Y,snd(B)):-
-    subst(A,id(X),Y,B).
+subst(snd(Tuple),id(Name),Y,snd(NewTuple)):-
+    subst(Tuple,id(Name),Y,NewTuple).
 
-subst(apply(A,B),id(X),Y,apply(C,D)):-
-    subst(A,id(X),Y,C),
-    subst(B,id(X),Y,D).
+subst(apply(Function,Argument),id(Name),Y,apply(NewFunction,NewArgument)):-
+    subst(Function,id(Name),Y,NewFunction),
+    subst(Argument,id(Name),Y,NewArgument).
 
-subst(lambda(id(A),B),id(X),Y,lambda(id(Z),F)):-
-    freevars(lambda(id(A),B),T1),
+subst(lambda(id(Variable),Body),id(Name),Y,lambda(id(NewVariable),NewBody)):-
+    freevars(lambda(id(Variable),Body),T1),
     freevars(Y,T2),
     union(T1,T2,T3),
-    union(T3,[X],T),
+    union(T3,[Name],FreeVars),
     (
-    char_type(Z,lower),\+member(Z,T),!
+    char_type(NewVariable,lower),\+member(NewVariable,FreeVars),!
     ),
     
-    subst(B,id(A),id(Z),F1),
-    subst(F1,id(X),Y,F).
+    subst(Body,id(Variable),id(NewVariable),F1),
+    subst(F1,id(Name),Y,NewBody).
     
         
     
 
-subst(rec(id(A),B),id(X),Y,rec(id(Z),F)):-
-    freevars(rec(id(A),B),L),
+subst(rec(id(Variable),Body),id(Name),Y,rec(id(NewVariable),NewBody)):-
+    freevars(rec(id(Variable),Body),L),
     freevars(Y,L1),
     union(L,L1,L2),
-    union(L2,[X],C),
+    union(L2,[Name],FreeVars),
     (
         
-        char_type(Z,lower),\+member(Z,C),!
+        char_type(NewVariable,lower),\+member(NewVariable,FreeVars),!
     ),
-    subst(B,id(A),id(Z),F1),
-    subst(F1,id(X),Y,F).
+    subst(Body,id(Variable),id(NewVariable),F1),
+    subst(F1,id(Name),Y,NewBody).
 

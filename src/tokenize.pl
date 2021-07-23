@@ -19,6 +19,7 @@ token(P) --> [C], { member(C,['\\','.',',','+','-','*','(',')','@']), string_cha
 token(W) --> word(Cs), { string_chars(W, Cs) }.
 
 
+/* parsing words */
 word([L|Ls])      --> [L], { char_type(L, alnum) }, word_rest(Ls).
 word_rest([L|Ls]) --> [L], { char_type(L, alnum) }, word_rest(Ls).
 word_rest([])     --> [].
