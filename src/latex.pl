@@ -18,82 +18,83 @@ tree_width(infer(_,_,[D1,D2]),N):-
 
 write_to_file(infer(R,red(T,C),Tree),File,Short):-
     (
-    /* If the -s option is set, ignore the derivation tree and set the page width to the default value */
+    /* If the -s option is set, ignore the derivation tree and set the page width to the default value,
+    otherwise the width is set to the tree_width plus another tab of space */
     Short -> D = infer(R,red(T,C),[]),N1 is 8
     ;D = infer(R,red(T,C),Tree),tree_width(infer(R,red(T,C),Tree),N),
     N1 is 8+N
     ),
     /* set up the tex file and then write the full tree recursively*/
-    open(File, write, OS),
-    writeln(OS, "\\documentclass[10pt]{article}"),
-    writeln(OS,"\\usepackage{proof}"),
-    writeln(OS,"\\usepackage[dvipsnames]{xcolor}"),
-    writeln(OS,"\\begin{document}"),
+    open(File, write, FileStream),
+    writeln(FileStream, "\\documentclass[10pt]{article}"),
+    writeln(FileStream,"\\usepackage{proof}"),
+    writeln(FileStream,"\\usepackage[dvipsnames]{xcolor}"),
+    writeln(FileStream,"\\begin{document}"),
     swritef(S,"\\pdfpagewidth=%win",[N1]),
-    writeln(OS,"\\pdfpageheight=11in"),
-    writeln(OS,S),
-    writeln(OS,"\\["),
-    write_tree(D,OS,0),
-    writeln(OS,"\\]"),
-    writeln(OS,"\\end{document}").    
+    writeln(FileStream,"\\pdfpageheight=11in"),
+    writeln(FileStream,S),
+    writeln(FileStream,"\\["),
+    write_tree(D,FileStream,0),
+    writeln(FileStream,"\\]"),
+    writeln(FileStream,"\\end{document}").    
     
-write_tree(infer(R,red(A,B),[]),OS,Tab):- /** rules without premises*/
+write_tree(infer(R,red(A,B),[]),FileStream,Tab):- /** rules without premises*/
     swritef(F,"\\infer[%w]",[R]),
-    writeln(OS,F),
-    tab(OS, Tab + 7),
-    write(OS, "{"),
+    writeln(FileStream,F),
+    tab(FileStream, Tab + 7),
+    write(FileStream, "{"),
     repr(A,S),
-    write(OS,S),
-    write(OS,"\\to "),
+    write(FileStream,S),
+    write(FileStream,"\\to "),
     repr(B,S1),
-    write(OS,S1),
-    writeln(OS,"}"),
-    tab(OS,Tab + 7),
-    writeln(OS,"{}").
+    write(FileStream,S1),
+    writeln(FileStream,"}"),
+    tab(FileStream,Tab + 7),
+    writeln(FileStream,"{}").
 
-write_tree(infer(R,red(A,B),[D1]),OS,Tab):-
+write_tree(infer(R,red(A,B),[D1]),FileStream,Tab):-
     /* predicate used for rules with a single premise,
     the premise is colored blue*/
     swritef(F,"\\infer[%w]",[R]),
-    writeln(OS,F),
-    tab(OS, Tab+7),
-    write(OS, "{"),
+    writeln(FileStream,F),
+    tab(FileStream, Tab+7),
+    write(FileStream, "{"),
     repr(A,S),
-    write(OS,S),
-    write(OS,"\\to "),
+    write(FileStream,S),
+    write(FileStream,"\\to "),
     repr(B,S1),
-    write(OS,S1),
-    writeln(OS,"}"),
-    tab(OS,Tab+7),
-    write(OS,"{"),
-    write(OS,"\\color{blue}"),
-    write_tree(D1,OS,Tab+7),
+    write(FileStream,S1),
+    writeln(FileStream,"}"),
+    tab(FileStream,Tab+7), /* Tabs are used to put each tree level to a different indentation level, making the final tex source more clear to read */
+    write(FileStream,"{"),
+    write(FileStream,"\\color{blue}"),
+    write_tree(D1,FileStream,Tab+7),
 
-    tab(OS,Tab+7),
-    writeln(OS,"}").
+    tab(FileStream,Tab+7),
+    writeln(FileStream,"}").
 
-write_tree(infer(R,red(A,B),[D1,D2]),OS,Tab):-
+write_tree(infer(R,red(A,B),[D1,D2]),FileStream,Tab):-
     /* predicates with two premises, the left one is colored red and the right one is colored green instead*/
     swritef(F,"\\infer[%w]",[R]),
-    writeln(OS,F),
-    tab(OS, Tab+7),
-    write(OS, "{"),
+    writeln(FileStream,F),
+    tab(FileStream, Tab+7),
+    write(FileStream, "{"),
     repr(A,S),
-    write(OS,S),
-    write(OS,"\\to "),
+    write(FileStream,S),
+    write(FileStream,"\\to "),
     repr(B,S1),
-    write(OS,S1),
-    writeln(OS,"}"),
-    tab(OS,Tab+7),
-    write(OS,"{"),
-    write(OS,"\\color{red}"),
-    write_tree(D1,OS,Tab+7),
-    tab(OS,Tab+7),
-    write(OS,"&"),
-    write(OS,"\\color{OliveGreen}"),
-    write_tree(D2,OS,Tab+7),
-    tab(OS,Tab+7),
-    writeln(OS,"}").
+    write(FileStream,S1),
+    writeln(FileStream,"}"),
+    tab(FileStream,Tab+7),
+    write(FileStream,"{"),
+    write(FileStream,"\\color{red}"),
+    write_tree(D1,FileStream,Tab+7),
+    tab(FileStream,Tab+7), /* when we have two premises, their tex source is written at the same indentation level*/
+    write(FileStream,"&"),
+    write(FileStream,"\\color{OliveGreen}"),
+    write_tree(D2,FileStream,Tab+7),
+    tab(FileStream,Tab+7),
+    writeln(FileStream,"}").
 
 
 

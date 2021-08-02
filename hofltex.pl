@@ -13,6 +13,11 @@ main(Argv) :-
     (
         append(_, [Last], Argv),
         (
+            /*
+            Checks argument passed and choose the correct predicates to use:
+            - if an input file is used, we first parse the file and then derive the canonical form
+            - if no input file is passed we parse  the last argument passed to the command
+            */
         (member(help(true), Opts); Opts = []) -> show_help
         
         ;member(file(true),Opts) -> 
@@ -28,6 +33,9 @@ main(Argv) :-
     ;show_help.
 
 get_canonical_form(Term,Opts) :-
+    /*
+    Get the derivation tree. After that we check the output file name and if the short flag is passed and, finally, we write the derivation to the file.
+    */
     derive(D,red(Term,_)) ->(
         member(output(A),Opts),
         member(short(S),Opts),
