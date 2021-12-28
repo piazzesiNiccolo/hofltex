@@ -2,6 +2,7 @@
 
 :- use_module(freevars).
 :- use_module(substitution).
+:- use_module(types).
 
 /*definition of the predicates that creates the derivation tree. THe predicates defined closely follow the operational semantics
 with a few minor changes:
@@ -31,11 +32,14 @@ derive(Derivation,red(bin_op("-",A,B),int(N))):-
     Derivation = infer(minus,red(bin_op("-",A,B),int(N)),[Derivation1,Derivation2]).
 
 derive(Derivation,red(tuple(A,B),tuple(A,B))):-
+    inferType(A,_),
+    inferType(B,_),
     freevars(A,[]),
     freevars(B,[]),
     Derivation = infer(tuple,red(tuple(A,B),tuple(A,B)),[]).
 
 derive(Derivation,red(lambda(A,B),lambda(A,B))):-
+    inferType(lambda(A,B),func(_,_)),
     freevars(lambda(A,B),[]),
     Derivation = infer(lambda,red(lambda(A,B),lambda(A,B)),[]).
     
