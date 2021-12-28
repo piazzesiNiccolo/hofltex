@@ -27,74 +27,56 @@ write_to_file(infer(R,red(T,C),Tree),File,Short):-
     /* set up the tex file and then write the full tree recursively*/
     open(File, write, FileStream),
     writeln(FileStream, "\\documentclass[10pt]{article}"),
-    writeln(FileStream,"\\usepackage{proof}"),
+    writeln(FileStream,"\\usepackage{bussproofs}"),
     writeln(FileStream,"\\usepackage[dvipsnames]{xcolor}"),
     writeln(FileStream,"\\begin{document}"),
     swritef(S,"\\pdfpagewidth=%win",[N1]),
     writeln(FileStream,"\\pdfpageheight=11in"),
     writeln(FileStream,S),
-    writeln(FileStream,"\\["),
+    writeln(FileStream,"\\begin{prooftree}"),
     write_tree(D,FileStream,0),
-    writeln(FileStream,"\\]"),
+    writeln(FileStream,"\\end{prooftree}"),
     writeln(FileStream,"\\end{document}").    
     
 write_tree(infer(R,red(A,B),[]),FileStream,Tab):- /** rules without premises*/
-    swritef(F,"\\infer[%w]",[R]),
-    writeln(FileStream,F),
-    tab(FileStream, Tab + 7),
-    write(FileStream, "{"),
     repr(A,S),
-    write(FileStream,S),
-    write(FileStream,"\\to "),
     repr(B,S1),
-    write(FileStream,S1),
-    writeln(FileStream,"}"),
-    tab(FileStream,Tab + 7),
-    writeln(FileStream,"{}").
+    tab(FileStream, Tab+4),
+    writeln(FileStream, "\\AxiomC{}"),
+    tab(FileStream,Tab+4),
+    
+    swritef(F1,"\\RightLabel{%w}",[R]),
+    writeln(FileStream, F1),
+    tab(FileStream, Tab+4),
+    
+    swritef(F2,"\\UnaryInfC{$ %w \\Rightarrow %w$}",[S,S1]),
+    writeln(FileStream,F2).
 
 write_tree(infer(R,red(A,B),[D1]),FileStream,Tab):-
     /* predicate used for rules with a single premise,
     the premise is colored blue*/
-    swritef(F,"\\infer[%w]",[R]),
-    writeln(FileStream,F),
-    tab(FileStream, Tab+7),
-    write(FileStream, "{"),
-    repr(A,S),
-    write(FileStream,S),
-    write(FileStream,"\\to "),
-    repr(B,S1),
-    write(FileStream,S1),
-    writeln(FileStream,"}"),
-    tab(FileStream,Tab+7), /* Tabs are used to put each tree level to a different indentation level, making the final tex source more clear to read */
-    write(FileStream,"{"),
-    write(FileStream,"\\color{blue}"),
-    write_tree(D1,FileStream,Tab+7),
-
-    tab(FileStream,Tab+7),
-    writeln(FileStream,"}").
+    write_tree(D1,FileStream,Tab),
+    repr(A, S1),
+    repr(B, S2),
+    swritef(F1,"\\RightLabel{%w}",[R]),
+    tab(FileStream,Tab+4),
+    writeln(FileStream,F1),
+    tab(FileStream,Tab+4),
+    swritef(F2,"\\UnaryInfC{$ %w \\Rightarrow %w$}",[S1,S2]),
+    writeln(FileStream,F2).
 
 write_tree(infer(R,red(A,B),[D1,D2]),FileStream,Tab):-
     /* predicates with two premises, the left one is colored red and the right one is colored green instead*/
-    swritef(F,"\\infer[%w]",[R]),
-    writeln(FileStream,F),
-    tab(FileStream, Tab+7),
-    write(FileStream, "{"),
-    repr(A,S),
-    write(FileStream,S),
-    write(FileStream,"\\to "),
-    repr(B,S1),
-    write(FileStream,S1),
-    writeln(FileStream,"}"),
-    tab(FileStream,Tab+7),
-    write(FileStream,"{"),
-    write(FileStream,"\\color{red}"),
-    write_tree(D1,FileStream,Tab+7),
-    tab(FileStream,Tab+7), /* when we have two premises, their tex source is written at the same indentation level*/
-    write(FileStream,"&"),
-    write(FileStream,"\\color{OliveGreen}"),
-    write_tree(D2,FileStream,Tab+7),
-    tab(FileStream,Tab+7),
-    writeln(FileStream,"}").
+    write_tree(D1,FileStream,Tab),
+    write_tree(D2,FileStream, Tab+8),
+    repr(A, S1),
+    repr(B, S2),
+    tab(FileStream, Tab+4),
+    swritef(F1,"\\LeftLabel{%w}",[R]),
+    writeln(FileStream,F1),
+    tab(FileStream, Tab+4),
+    swritef(F2,"\\BinaryInfC{$ %w \\Rightarrow %w$}",[S1,S2]),
+    writeln(FileStream,F2).
 
 
 
