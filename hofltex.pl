@@ -2,7 +2,7 @@
 :-use_module(src/hofl).
 :-use_module(src/infer).
 :- use_module(src/latex).
-
+:- use_module(src/types).
 
 
 :- initialization(main,main).

@@ -55,7 +55,7 @@ repr(rec(A,_),R):-
     repr(A,R1),
     string_concat(R1,"_{rec}",R).
 
-/* if then else constructs are represented the same way they are defined
+/* if then else constructs are represented the same way they are defined*/
 repr(cond(A,B,C),R):-
     repr(A,R1),
     repr(B,R2),
