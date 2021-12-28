@@ -21,7 +21,7 @@ main(Argv) :-
         (member(help(true), Opts); Opts = []) -> show_help
         
         ;member(file(true),Opts) -> 
-            (parse_from_file(Last,T) -> (get_canonical_form(T,Opts))
+            (parse_from_file(Last,T) -> (inferType(T,_),get_canonical_form(T,Opts))
             ;(swritef(S,"could not parse term from file %w",[Last]),writeln(S)))
 
         ;member(file(false),Opts) ->
