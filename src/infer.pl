@@ -10,6 +10,7 @@ with a few minor changes:
 - in the function application (t t0) rule, the premise that enforces that t is a lambda term is checked, but it's not memorized
 in the final tree to save some space
 - the same reasoning is applied in the fst(t) and snd(t) rules, for the premies that checks if t is a tuple*/
+
 derive(Derivation,red(int(N),int(N))):-
     Derivation = infer(int,red(int(N),int(N)),[]).
 
