@@ -32,7 +32,6 @@ parse_from_file(File,Term) :-
     read_file_to_string(File, String, []),
     parse(String,Term).
 
-
 pre_term(X) --> ["("],pre_term(X),[")"].
 pre_term(rec(id(X),Y)) -->["rec"], pre_term(id(X)),!,["."],pre_term(Y). 
 pre_term(lambda(id(X),Y)) --> ["\\"] , pre_term(id(X)),!,["."],pre_term(Y).
